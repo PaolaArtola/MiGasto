@@ -1,0 +1,174 @@
+.landing-hero {
+  margin: 0;
+  padding: 0;
+  display: flex;
+  width: 100vw;
+  height: 100vh;
+  overflow: hidden;
+  justify-content: center;
+  align-items: center;
+  position: relative; /* Added for absolute children */
+}
+/* Background decorative shapes */
+.filler-shape {
+  position: absolute;
+  background-color: #23233b; /* dark blue */
+  width: max(20dvw, 8rem);
+  height: calc(100dvh - 8rem);
+  z-index: 0;
+  bottom: 0;
+  right: 0;
+  transform: translate(50%, 0%);
+}
+
+.bottom-right-shape {
+  position: absolute;
+  background-color: #23233b; /* dark blue */
+  width: 60dvw;
+  height: 16rem;
+  border-radius: 70%;
+  z-index: 0;
+  bottom: 0;
+  right: 0;
+  transform: translate(-15%, 37%);
+}
+/* Top-Right Curved Corner Effect */
+#curved-corner-topright {
+  position: absolute;
+  width: min(100dvw, 100dvh);
+  height: min(100dvw, 100dvh);
+  overflow: hidden;
+  top: 0;
+  right: 0;
+  z-index: 0;
+}
+
+#curved-corner-topright::before {
+  content: "";
+  display: block;
+  width: 200%;
+  height: 400%;
+  position: absolute;
+  top: 0;
+  right: 0;
+  border-radius: 40%;
+  box-shadow: calc(min(100dvw, 100dvh) / 2) calc(min(100dvw, 100dvh) / -2) 0 0
+    #23233b;
+  z-index: 0;
+}
+
+/* Main layout */
+.dashboard-container {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 3rem 4rem;
+  height: calc(100vh - 8rem);
+  width: calc(100vw - 8rem);
+  background-color: #fff;
+  box-sizing: border-box;
+  border-radius: 1rem;
+  overflow: hidden;
+}
+
+.text-section {
+  max-width: 40%;
+  z-index: 1;
+}
+
+.text-section h1 {
+  font-size: 3rem;
+  color: #2b2b45;
+  margin-bottom: 1.5rem;
+}
+
+.text-section p {
+  font-size: 1.4rem;
+  color: #2b2b45;
+  margin-bottom: 2.5rem;
+}
+
+.start-button {
+  padding: 1rem 2.5rem;
+  font-size: 1.1rem;
+  color: white;
+  background-color: #2b2b45;
+  border: none;
+  border-radius: 999px;
+  cursor: pointer;
+}
+
+/* Assuming this container is inside a flex or grid layout */
+.image-section {
+  width: 60%; /* Or a fixed width like 600px */
+  height: 95vh; /* Use viewport height for clear vertical constraint */
+  padding-left: 4rem;
+  z-index: 1;
+  overflow: hidden; /* Prevents overflow */
+  position: relative; /* Ensures z-index works correctly */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-sizing: border-box; /* Ensures padding doesn't add to width */
+}
+
+.image-section img {
+  max-width: 100%;
+  max-height: calc(100% - 10rem);
+  width: auto;
+  height: auto;
+  object-fit: contain; /* Prevents stretching/cropping */
+  display: block;
+}
+
+@media (max-width: 765px) {
+  .dashboard-container {
+    flex-direction: column-reverse;
+    justify-content: center;
+    padding: 2rem 2rem;
+    height: calc(100vh - 6rem);
+    width: calc(100vw - 6rem);
+  }
+
+  .image-section {
+    max-width: 70%;
+    width: auto;
+    padding: 0;
+    flex-grow: 1;
+  }
+
+  .text-section {
+    display: flex;
+    flex-direction: column;
+    text-align: center;
+    align-items: center;
+    max-width: 100%;
+  }
+
+  .image-section img {
+    max-width: 100%;
+    max-height: 100%;
+    width: auto;
+    height: auto;
+    object-fit: contain; /* Prevents stretching/cropping */
+    display: block;
+  }
+}
+
+@media (max-width: 580px) {
+  .image-section {
+    max-width: 80%;
+  }
+}
+
+@media (max-width: 450px) {
+  .dashboard-container {
+    height: calc(100vh - 4rem);
+    width: calc(100vw - 4rem);
+  }
+  .image-section {
+    max-width: 95%;
+  }
+}

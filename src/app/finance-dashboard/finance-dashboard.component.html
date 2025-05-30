@@ -1,0 +1,184 @@
+<div class="dashboard-container">
+  <!-- Header -->
+  <header class="header">
+    <div class="header-left" (click)="moveTo('/')">
+      <div class="logo" >
+        <span class="logo-icon">⚡</span>
+        <span class="logo-text">MiGasto</span>
+      </div>
+    </div>
+    <!-- <nav class="nav-tabs">
+      <button 
+        class="nav-tab" 
+        [class.active]="activeTab === 'Overview'"
+        (click)="setActiveTab('Overview')">
+        Overview
+      </button>
+      <button 
+        class="nav-tab" 
+        [class.active]="activeTab === 'Transactions'"
+        (click)="setActiveTab('Transactions')">
+        Transactions
+      </button>
+      <button 
+        class="nav-tab" 
+        [class.active]="activeTab === 'Analytics'"
+        (click)="setActiveTab('Analytics')">
+        Analytics
+      </button>
+      <button 
+        class="nav-tab" 
+        [class.active]="activeTab === 'Accounts'"
+        (click)="setActiveTab('Accounts')">
+        Accounts
+      </button>
+      <button 
+        class="nav-tab" 
+        [class.active]="activeTab === 'Wallet'"
+        (click)="setActiveTab('Wallet')">
+        Wallet
+      </button>
+    </nav> -->
+    <div class="header-right">
+      <!-- <button class="icon-button">⚙️</button>
+      <button class="icon-button">🔔</button> -->
+      <div class="profile-avatar">M</div>
+    </div>
+  </header>
+
+  <!-- Main Content -->
+  <main class="main-content">
+    <div class="welcome-section">
+      <h1>Hello, Paola!</h1>
+      <div class="period-tabs">
+        <button 
+          class="period-tab" 
+          [class.active]="activePeriod === 'This month'"
+          (click)="setActivePeriod('This month')">
+          This month
+        </button>
+        <button 
+          class="period-tab" 
+          [class.active]="activePeriod === 'Last month'"
+          (click)="setActivePeriod('Last month')">
+          Last month
+        </button>
+        <button 
+          class="period-tab" 
+          [class.active]="activePeriod === 'This year'"
+          (click)="setActivePeriod('This year')">
+          This year
+        </button>
+        <button 
+          class="period-tab" 
+          [class.active]="activePeriod === 'Last 12 months'"
+          (click)="setActivePeriod('Last 12 months')">
+          Last 12 months
+        </button>
+        <!-- <button class="period-selector">📅 Select period</button> -->
+      </div>
+    </div>
+
+    <!-- Balance Cards -->
+    <div class="balance-cards">
+      <div class="balance-card">
+        <div class="card-header">
+          <span class="card-title">Balance</span>
+        </div>
+        <div class="card-amount">${{ balance.amount.toLocaleString('en-US', {minimumFractionDigits: 2}) }}</div>
+        <div class="card-change" [ngClass]="balance.trend">↗ {{ balance.change }}%</div>
+      </div>
+
+      <div class="balance-card">
+        <div class="card-header">
+          <span class="card-title">Incomes</span>
+        </div>
+        <div class="card-amount">${{ income.amount.toLocaleString('en-US', {minimumFractionDigits: 2}) }}</div>
+        <div class="card-change" [ngClass]="income.trend">↗ {{ income.change }}%</div>
+      </div>
+
+      <div class="balance-card">
+        <div class="card-header">
+          <span class="card-title">Expenses</span>
+        </div>
+        <div class="card-amount">${{ expenses.amount.toLocaleString('en-US', {minimumFractionDigits: 2}) }}</div>
+        <div class="card-change" [ngClass]="expenses.trend">↗ {{ expenses.change }}%</div>
+      </div>
+    </div>
+
+    <!-- Action Buttons -->
+    <div class="action-buttons">
+      <button class="action-button income" (click)="addIncome()">
+        <span class="action-icon">+</span>
+        <div>
+          <div class="action-title">Add income</div>
+          <div class="action-subtitle">Create an income manually</div>
+        </div>
+      </button>
+
+      <button class="action-button expense" (click)="addExpense()">
+        <span class="action-icon">-</span>
+        <div>
+          <div class="action-title">Add expense</div>
+          <div class="action-subtitle">Create an expense manually</div>
+        </div>
+      </button>
+
+      <!-- <button class="action-button transfer" (click)="transferMoney()">
+        <span class="action-icon">⇄</span>
+        <div>
+          <div class="action-title">Transfer money</div>
+          <div class="action-subtitle">Select the amount and make a transfer</div>
+        </div>
+      </button> -->
+    </div>
+
+    <!-- Content Grid -->
+    <div class="content-grid">
+      <!-- Expenses Chart -->
+      <div class="chart-card">
+        <h3>Expenses by category</h3>
+        <div class="chart-container">
+          <canvas #expenseChart width="300" height="300"></canvas>
+        </div>
+        <div class="chart-legend">
+          <div *ngFor="let category of expenseCategories" class="legend-item">
+            <span class="legend-color" [style.background-color]="category.color"></span>
+            <span class="legend-icon">{{ category.icon }}</span>
+            <span class="legend-name">{{ category.name }}</span>
+            <span class="legend-percentage">{{ category.percentage }}%</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Transactions -->
+      <div class="transactions-card">
+        <h3>Last transactions</h3>
+        <p class="transactions-subtitle">Check your last transactions</p>
+        
+        <div class="transactions-header">
+          <span>Description</span>
+          <span>Method</span>
+          <span>Date</span>
+          <span>Amount</span>
+          <span></span>
+        </div>
+
+        <div class="transactions-list">
+          <div *ngFor="let transaction of transactions" class="transaction-item">
+            <div class="transaction-description">
+              <span class="transaction-icon">{{ transaction.icon }}</span>
+              <span>{{ transaction.description }}</span>
+            </div>
+            <span class="transaction-method">{{ transaction.method }}</span>
+            <span class="transaction-date">{{ transaction.date }}</span>
+            <span class="transaction-amount" [ngClass]="transaction.type">
+              {{ transaction.type === 'income' ? '+' : '-' }}${{ Math.abs(transaction.amount).toFixed(2) }}
+            </span>
+            <button class="transaction-menu">⋯</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </main>
+</div>
